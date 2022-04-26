@@ -1,7 +1,9 @@
 // Functionality concerning user authentification
 import jwt from "jsonwebtoken";
 import { randomUUID } from "crypto";
+
 import { createToken } from "../../utils/token.js";
+import { usernameRegEx, passwordRegEx } from "./auth.config.js";
 
 /**
  * @typedef {Object} User
@@ -10,10 +12,6 @@ import { createToken } from "../../utils/token.js";
  * @property {string} id
  */
 
-const usernameRegEx = /^[a-z0-9_-]{3,16}$/;
-const passwordRegEx =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
 /**
  * Register's user in system (creating correcponding doc in database).
  * @param {Object} param
@@ -21,6 +19,7 @@ const passwordRegEx =
  * @param {Object} param.db database
  * @return {Object} new user's info
  */
+
 const register = async ({ user: { username, password }, db }) => {
   if (!username.match(usernameRegEx)) {
     throw new Error("Invalid login");

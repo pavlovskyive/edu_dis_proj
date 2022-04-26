@@ -1,3 +1,4 @@
+// Functionality concerning cards (CRUD operations)
 import { randomUUID } from "crypto";
 
 import { validateCard } from "./cards.utils";
