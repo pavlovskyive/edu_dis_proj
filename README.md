@@ -6,25 +6,32 @@ Project management system REST API for 'Information systems' class of Kyiv Polyt
 <!--- If we have only one group/collection, then no need for the "ungrouped" heading -->
 
 
+## Variables
+
+| Key | Value | Type |
+| --- | ------|-------------|
+| host_url | https://powerful-bayou-25482.herokuapp.com | string |
+
+
 
 ## Endpoints
 
 * [Auth](#auth)
     1. [Register](#1-register)
-        * [Example](#i-example-request-example)
+        * [Register](#i-example-request-register)
     1. [Login](#2-login)
-        * [Example](#i-example-request-example-1)
+        * [Login](#i-example-request-login)
 * [Cards](#cards)
     1. [Get all cards](#1-get-all-cards)
-        * [Example](#i-example-request-example-2)
+        * [Get all cards](#i-example-request-get-all-cards)
     1. [Get card](#2-get-card)
-        * [Example](#i-example-request-example-3)
+        * [Get card](#i-example-request-get-card)
     1. [Create card](#3-create-card)
-        * [Example](#i-example-request-example-4)
+        * [Create card](#i-example-request-create-card)
     1. [Update card](#4-update-card)
-        * [Example](#i-example-request-example-5)
+        * [Update card](#i-example-request-update-card)
     1. [Delete card](#5-delete-card)
-        * [Example](#i-example-request-example-6)
+        * [Delete card](#i-example-request-delete-card)
 
 --------
 
@@ -47,7 +54,7 @@ Register user in database and retrieve Bearer token
 ```bash
 Method: POST
 Type: RAW
-URL: http://localhost:3000/auth/local/register
+URL: {{host_url}}/auth/local/register
 ```
 
 
@@ -66,7 +73,7 @@ URL: http://localhost:3000/auth/local/register
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Register
 
 
 
@@ -81,10 +88,10 @@ URL: http://localhost:3000/auth/local/register
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Register
 ```js
 {
-    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNzcxMDI0LWNhNDktNDFmYS05ODQ5LTNlYjRlMjcyOWIzYSIsImlhdCI6MTY1MDk3MzU5Nn0.ccPCj1DjN0nc-du6x9gjXU8qM3ftONf8zf-6ED614vE",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Nzc3NGI2LWViMTktNDdmZS05ZGE2LWZiMzc1OGMyZTg5ZSIsImlhdCI6MTY1MDk4NjUwNn0.Hn_TgscgY8R4mmhDhivxJkY0O0N-LfywSx3fWsf6--A",
     "user": {
         "username": "test_user"
     }
@@ -109,7 +116,7 @@ Login user and retrieve Bearer token
 ```bash
 Method: POST
 Type: RAW
-URL: http://localhost:3000/auth/local
+URL: {{host_url}}/auth/local
 ```
 
 
@@ -128,7 +135,7 @@ URL: http://localhost:3000/auth/local
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Login
 
 
 
@@ -143,10 +150,10 @@ URL: http://localhost:3000/auth/local
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Login
 ```js
 {
-    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQzNzcxMDI0LWNhNDktNDFmYS05ODQ5LTNlYjRlMjcyOWIzYSIsImlhdCI6MTY1MDk3MzYxNX0.FQpDkbZH3TsFL24v8lzCmN8ZXLjFnpTP4JUjyeXf3pA",
+    "jwt": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Nzc3NGI2LWViMTktNDdmZS05ZGE2LWZiMzc1OGMyZTg5ZSIsImlhdCI6MTY1MDk4NjU5NX0.BLNVJBh7PnPjUp-RN0pwtN-ILT29H_cp3t1JvBAO81o",
     "user": {
         "username": "test_user"
     }
@@ -177,7 +184,7 @@ Get all user's cards
 ```bash
 Method: GET
 Type: 
-URL: http://localhost:3000/cards
+URL: {{host_url}}/cards
 ```
 
 
@@ -185,7 +192,7 @@ URL: http://localhost:3000/cards
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Get all cards
 
 
 
@@ -193,26 +200,26 @@ URL: http://localhost:3000/cards
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Get all cards
 ```js
 [
     {
         "title": "Test title",
         "status": "to_do",
         "description": "Test",
-        "id": "2a438a08-d00a-4ec5-a7de-656880025ca8"
+        "id": "cf4ffe81-ef17-49a5-ae40-8c8e339225d5"
     },
     {
         "title": "Test title 2",
         "status": "to_do",
         "description": "Test",
-        "id": "6dd6ff4c-03d2-40b0-95ac-153d2a6d86d2"
+        "id": "4c313c22-4f4b-4830-86ad-b4c9bfba3f5c"
     },
     {
         "title": "Test title 3",
         "status": "to_do",
         "description": "Test",
-        "id": "04a0cd26-70b8-408b-89b9-96d3a10df460"
+        "id": "e32925e2-e8d0-4ced-b7ae-cb99a603626a"
     }
 ]
 ```
@@ -235,7 +242,7 @@ Get information about specified card
 ```bash
 Method: GET
 Type: 
-URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
+URL: {{host_url}}/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 ```
 
 
@@ -243,7 +250,7 @@ URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Get card
 
 
 
@@ -251,13 +258,13 @@ URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Get card
 ```js
 {
-    "title": "Test title updated",
-    "status": "in_progress",
-    "description": "Test updated",
-    "id": "2a438a08-d00a-4ec5-a7de-656880025ca8"
+    "title": "Test title",
+    "status": "to_do",
+    "description": "Test",
+    "id": "cf4ffe81-ef17-49a5-ae40-8c8e339225d5"
 }
 ```
 
@@ -279,7 +286,7 @@ Create new card
 ```bash
 Method: POST
 Type: RAW
-URL: http://localhost:3000/cards
+URL: {{host_url}}/cards
 ```
 
 
@@ -299,7 +306,7 @@ URL: http://localhost:3000/cards
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Create card
 
 
 
@@ -307,7 +314,7 @@ URL: http://localhost:3000/cards
 
 ```js        
 {
-    "title": "Test title 2",
+    "title": "Test title",
     "status": "to_do",
     "description": "Test"
 }
@@ -315,13 +322,13 @@ URL: http://localhost:3000/cards
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Create card
 ```js
 {
     "title": "Test title",
     "status": "to_do",
     "description": "Test",
-    "id": "2a438a08-d00a-4ec5-a7de-656880025ca8"
+    "id": "cf4ffe81-ef17-49a5-ae40-8c8e339225d5"
 }
 ```
 
@@ -343,7 +350,7 @@ Update specified card
 ```bash
 Method: PUT
 Type: RAW
-URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
+URL: {{host_url}}/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 ```
 
 
@@ -363,7 +370,7 @@ URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Update card
 
 
 
@@ -379,13 +386,13 @@ URL: http://localhost:3000/cards/2a438a08-d00a-4ec5-a7de-656880025ca8
 
 
 
-#### I. Example Response: Example
+#### I. Example Response: Update card
 ```js
 {
     "title": "Test title updated",
     "status": "in_progress",
     "description": "Test updated",
-    "id": "2a438a08-d00a-4ec5-a7de-656880025ca8"
+    "id": "cf4ffe81-ef17-49a5-ae40-8c8e339225d5"
 }
 ```
 
@@ -407,7 +414,7 @@ Delete specified card
 ```bash
 Method: DELETE
 Type: 
-URL: http://localhost:3000/cards/04a0cd26-70b8-408b-89b9-96d3a10df460
+URL: {{host_url}}/cards/04a0cd26-70b8-408b-89b9-96d3a10df460
 ```
 
 
@@ -415,7 +422,7 @@ URL: http://localhost:3000/cards/04a0cd26-70b8-408b-89b9-96d3a10df460
 ***More example Requests/Responses:***
 
 
-#### I. Example Request: Example
+#### I. Example Request: Delete card
 
 
 
