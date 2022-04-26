@@ -1,12 +1,27 @@
 // Functionality concerning user authentification
 import jwt from "jsonwebtoken";
 import { randomUUID } from "crypto";
+import { createToken } from "../../utils/token.js";
+
+/**
+ * @typedef {Object} User
+ * @property {string} username
+ * @property {string} password
+ * @property {string} id
+ */
 
 const usernameRegEx = /^[a-z0-9_-]{3,16}$/;
 const passwordRegEx =
-  /(?=(.*[0-9]))(?=.*[\!@#$%^&*()\\[\]{}\-_+=~`|:;"'<>,./?])(?=.*[a-z])(?=(.*[A-Z]))(?=(.*)).{8,}/;
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
-const register = async ({ username, password, db }) => {
+/**
+ * Register's user in system (creating correcponding doc in database).
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {Object} param.db database
+ * @return {Object} new user's info
+ */
+const register = async ({ user: { username, password }, db }) => {
   if (!username.match(usernameRegEx)) {
     throw new Error("Invalid login");
   }
@@ -40,13 +55,20 @@ const register = async ({ username, password, db }) => {
   };
 };
 
-const login = async ({ username, password, db }) => {
+/**
+ * Logs in user.
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {Object} param.db database
+ * @return {Object} user's updated info
+ */
+const login = async ({ user: { username, password }, db }) => {
   const user = await db.read({ username });
   if (!user || password !== user.password) {
     throw new Error("Username or password is incorrect");
   }
 
-  user.jwt = createToken(user.id);
+  user.token = createToken(user.id);
   await db.update({ user });
 
   return {
@@ -57,6 +79,13 @@ const login = async ({ username, password, db }) => {
   };
 };
 
+/**
+ * Authenticates user
+ * @param {Object} param
+ * @param {string} param.token token
+ * @param {Object} param.db database
+ * @return {User} user
+ */
 const authenticate = async ({ token, db }) => {
   const promise = new Promise((res) => {
     jwt.verify(token, process.env.JWT_KEY, (err, payload) => {
@@ -93,7 +122,5 @@ const authenticate = async ({ token, db }) => {
       throw err;
     });
 };
-
-const createToken = (id) => jwt.sign({ id: id }, process.env.JWT_KEY);
 
 export { register, login, authenticate };

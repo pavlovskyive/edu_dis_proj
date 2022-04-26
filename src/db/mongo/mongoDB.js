@@ -1,13 +1,29 @@
 import { MongoClient } from "mongodb";
 
+/**
+ * @typedef {Object} User
+ * @property {string} username
+ * @property {string} password
+ * @property {string} id
+ */
+
+/**
+ * Database provider
+ */
 export default class MongoDB {
   #url;
   #users;
 
+  /**
+   * @param {string} url
+   */
   constructor(url) {
     this.#url = url;
   }
 
+  /**
+   * Need to be called in order to initialize MongoDB instance
+   */
   async init() {
     console.log("Initializing MongoDB...");
 
@@ -23,10 +39,20 @@ export default class MongoDB {
     }
   }
 
+  /**
+   * Creating a doc for user in database
+   * @param {User} user
+   */
   async create({ user }) {
     await this.#users.insertOne(user);
   }
 
+  /**
+   * Get user from database. Either 'id' or 'username' is necessary
+   * @param {string} id
+   * @param {string} username
+   * @return {User} user
+   */
   async read({ id, username }) {
     if (id) {
       return await this.#users.findOne({ id: id });
@@ -35,6 +61,11 @@ export default class MongoDB {
     }
   }
 
+  /**
+   * Update user's document in database
+   * @param {User} user
+   * @return {User} updated user's info
+   */
   async update({ user }) {
     const result = await this.#users.updateOne(
       { id: user.id },

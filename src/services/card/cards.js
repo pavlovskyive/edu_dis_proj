@@ -2,11 +2,51 @@ import { randomUUID } from "crypto";
 
 import { validateCard } from "./cards.utils";
 
+/**
+ * @typedef {Object} User
+ * @property {string} username
+ * @property {string} password
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} Card
+ * @property {string} title
+ * @property {string} status
+ * @property {string} description
+ * @property {string} id
+ */
+
+/**
+ * Get all user's cards
+ * @param {User} user
+ * @return {Array<Card>} user's cards
+ */
 const getCards = ({ user }) => user.cards || [];
 
-const getCard = ({ user, cardId }) =>
-  user.cards.find((card) => card.id == cardId) || {};
+/**
+ * Get user's card by card id
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {string} param.cardId card id
+ * @return {Card} user's card with given id
+ */
+const getCard = ({ user, cardId }) => {
+  const card = user.cards.find((card) => card.id == cardId);
+  if (!card) {
+    throw new Error("No such card");
+  }
+  return card;
+};
 
+/**
+ * Creates card for user
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {Card} param.card new card
+ * @param {Object} param.db database
+ * @return {Card} new card's info
+ */
 const createCard = async ({ user, card, db }) => {
   const isCardValid = validateCard({ card });
 
@@ -22,6 +62,14 @@ const createCard = async ({ user, card, db }) => {
   return card;
 };
 
+/**
+ * Updates user's card
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {Card} param.card new card
+ * @param {Object} param.db database
+ * @return {Card} updated card
+ */
 const updateCard = async ({ user, card, db }) => {
   const index = user.cards.findIndex((e) => e.id == card.id);
 
@@ -41,6 +89,13 @@ const updateCard = async ({ user, card, db }) => {
   return card;
 };
 
+/**
+ * Deletes user's card with given id
+ * @param {Object} param
+ * @param {User} param.user user
+ * @param {string} param.cardId card id
+ * @param {Object} param.db database
+ */
 const deleteCard = async ({ user, cardId, db }) => {
   const index = user.cards.findIndex((e) => e.id == cardId);
 

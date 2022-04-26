@@ -139,11 +139,10 @@ describe("Cards service", () => {
       expect(card).toEqual(user.cards[0]);
     });
 
-    it("should return empty object if card is absent in user cards", () => {
-      const card = getCard({ user, cardId: "falsyId" });
-
-      expect(card).toEqual({});
-      //   expect(() => getCard({ user, cardId: "falsyId" })).toThrow("");
+    it("should throw error is absent in user cards", () => {
+      expect(() => getCard({ user, cardId: "falsyId" })).toThrow(
+        "No such card"
+      );
     });
   });
 
