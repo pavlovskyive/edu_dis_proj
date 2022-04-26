@@ -84,10 +84,6 @@ app.delete("/cards/:id", verifyToken, async (req, res, next) => {
     .catch((e) => next(e));
 });
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

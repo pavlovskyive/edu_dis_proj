@@ -3,13 +3,6 @@ import { randomUUID } from "crypto";
 import { validateCard } from "./cards.utils";
 
 /**
- * @typedef {Object} User
- * @property {string} username
- * @property {string} password
- * @property {string} id
- */
-
-/**
  * @typedef {Object} Card
  * @property {string} title
  * @property {string} status
