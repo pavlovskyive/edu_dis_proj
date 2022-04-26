@@ -1,20 +1,18 @@
 import { randomUUID } from "crypto";
 
-const cardStatuses = ["to_do", "in_progress", "testing", "done"];
+import { validateCard } from "./cards.utils";
 
-const getCards = ({ user }) => user.cards;
+const getCards = ({ user }) => user.cards || [];
 
 const getCard = ({ user, cardId }) =>
-  user.cards.find((card) => card.id == cardId);
+  user.cards.find((card) => card.id == cardId) || {};
 
 const createCard = async ({ user, card, db }) => {
-  const isTitleValid = card.title && card.title.length !== 0;
-  const isStatusValid = cardStatuses.includes(card.status);
-  const isDescriptionValid = card.description && card.description.length;
+  const isCardValid = validateCard({ card });
 
   card.id = randomUUID();
 
-  if (isTitleValid && isStatusValid && isDescriptionValid) {
+  if (isCardValid) {
     user.cards.push(card);
   } else {
     throw new Error("Card not valid");
@@ -31,11 +29,9 @@ const updateCard = async ({ user, card, db }) => {
     throw new Error("Card not exist");
   }
 
-  const isTitleValid = card.title && card.title.length !== 0;
-  const isStatusValid = cardStatuses.includes(card.status);
-  const isDescriptionValid = card.description && card.description.length;
+  const isCardValid = validateCard({ card });
 
-  if (isTitleValid && isStatusValid && isDescriptionValid) {
+  if (isCardValid) {
     user.cards[index] = card;
   } else {
     throw new Error("Card not valid");
