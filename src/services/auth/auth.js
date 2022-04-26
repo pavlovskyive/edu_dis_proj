@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { randomUUID } from "crypto";
 
 import { createToken } from "../../utils/token.js";
-import { usernameRegEx, passwordRegEx } from "./auth.config.js";
+import { usernameRegEx, passwordRegEx } from "./auth.constants.js";
 
 /**
  * @typedef {Object} User
@@ -32,7 +32,7 @@ const register = async ({ user: { username, password }, db }) => {
   const isUsernameTaken = (await db.read({ username })) ? true : false;
 
   if (isUsernameTaken) {
-    throw new Error("Username is already taken!");
+    throw new Error("Username is already taken");
   }
 
   const id = randomUUID();
@@ -64,7 +64,7 @@ const register = async ({ user: { username, password }, db }) => {
 const login = async ({ user: { username, password }, db }) => {
   const user = await db.read({ username });
   if (!user || password !== user.password) {
-    throw new Error("Username or password is incorrect");
+    throw new Error("Bad credentials");
   }
 
   user.token = createToken(user.id);
@@ -94,7 +94,7 @@ const authenticate = async ({ token, db }) => {
       if (payload) {
         res(payload);
       } else {
-        throw new Error("JWT error");
+        throw new Error("Faulty JWT");
       }
     });
   });
@@ -103,7 +103,7 @@ const authenticate = async ({ token, db }) => {
     .then((payload) => {
       const id = payload.id;
       if (!id) {
-        throw new Error("JWT error");
+        throw new Error("Faulty JWT");
       }
       return id;
     })

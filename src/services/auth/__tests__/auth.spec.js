@@ -103,7 +103,7 @@ describe("Auth service", () => {
         try {
           await register({ user, db: { ...db, read: jest.fn(() => true) } });
         } catch (e) {
-          expect(e).toEqual(new Error("Username is already taken!"));
+          expect(e).toEqual(new Error("Username is already taken"));
         }
 
         expect(db.update).not.toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe("Auth service", () => {
         try {
           await login({ user: {}, db });
         } catch (e) {
-          expect(e).toEqual(new Error("Username or password is incorrect"));
+          expect(e).toEqual(new Error("Bad credentials"));
         }
 
         expect(db.update).not.toHaveBeenCalled();
@@ -163,7 +163,7 @@ describe("Auth service", () => {
         try {
           await login({ user: { ...user, password: "123NotAnna!" }, db });
         } catch (e) {
-          expect(e).toEqual(new Error("Username or password is incorrect"));
+          expect(e).toEqual(new Error("Bad credentials"));
         }
 
         expect(db.update).not.toHaveBeenCalled();
@@ -207,7 +207,7 @@ describe("Auth service", () => {
         );
         const promise = authenticate({ token: jwtToken, db });
         return promise.catch((err) =>
-          expect(err).toEqual(new Error("JWT error"))
+          expect(err).toEqual(new Error("Faulty JWT"))
         );
       });
 
@@ -217,7 +217,7 @@ describe("Auth service", () => {
         );
         const promise = authenticate({ token: jwtToken, db });
         return promise.catch((err) =>
-          expect(err).toEqual(new Error("JWT error"))
+          expect(err).toEqual(new Error("Faulty JWT"))
         );
       });
 

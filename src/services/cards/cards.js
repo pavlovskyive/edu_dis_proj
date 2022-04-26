@@ -28,7 +28,7 @@ const getCards = ({ user }) => user.cards || [];
 const getCard = ({ user, cardId }) => {
   const card = user.cards.find((card) => card.id == cardId);
   if (!card) {
-    throw new Error("No such card");
+    throw new Error("Data doesnt exist");
   }
   return card;
 };
@@ -49,7 +49,7 @@ const createCard = async ({ user, card, db }) => {
   if (isCardValid) {
     user.cards.push(card);
   } else {
-    throw new Error("Card not valid");
+    throw new Error("Invalid card data");
   }
 
   await db.update({ user });
@@ -68,7 +68,7 @@ const updateCard = async ({ user, card, db }) => {
   const index = user.cards.findIndex((e) => e.id == card.id);
 
   if (index === -1) {
-    throw new Error("Card not exist");
+    throw new Error("Data doesnt exist");
   }
 
   const isCardValid = validateCard({ card });
@@ -76,7 +76,7 @@ const updateCard = async ({ user, card, db }) => {
   if (isCardValid) {
     user.cards[index] = card;
   } else {
-    throw new Error("Card not valid");
+    throw new Error("Invalid card data");
   }
 
   await db.update({ user });
@@ -94,7 +94,7 @@ const deleteCard = async ({ user, cardId, db }) => {
   const index = user.cards.findIndex((e) => e.id == cardId);
 
   if (index === -1) {
-    throw new Error("Card not exist");
+    throw new Error("Data doesnt exist");
   }
 
   user.cards.splice(index, 1);

@@ -1,21 +1,27 @@
 import express from "express";
 import MongoDB from "./db/mongo/mongoDB.js";
-import { authenticate, login, register } from "./services/user/auth.js";
+import { authenticate, login, register } from "./services/auth/auth.js";
 import {
   createCard,
   deleteCard,
   getCard,
   getCards,
   updateCard,
-} from "./services/card/cards.js";
+} from "./services/cards/cards.js";
 import { verifyToken } from "./utils/token.js";
+import errors from "./constants/errors.js";
 
-const app = express();
-app.use(express.json());
-const port = process.env.PORT || 3000;
-
+// Database initialization
 const db = new MongoDB(process.env.MONGODB_URL);
 await db.init();
+
+// Server initialization
+const app = express();
+app.use(express.json());
+
+// Routing
+
+// Auth API
 
 app.post("/auth/local/register", async (req, res, next) => {
   return register({ user: req.body, db })
@@ -33,7 +39,7 @@ app.post("/auth/local", async (req, res, next) => {
     .catch((e) => next(e));
 });
 
-// CARDS API
+// Cards API
 
 app.get("/cards", verifyToken, async (req, res, next) => {
   return authenticate({ token: req.token, db })
@@ -82,6 +88,20 @@ app.delete("/cards/:id", verifyToken, async (req, res, next) => {
     })
     .then(() => res.send())
     .catch((e) => next(e));
+});
+
+// Server configuration
+
+const port = process.env.PORT || 3000;
+
+app.use((err, req, res, next) => {
+  const errorMessage = err.message;
+  const knownErrorStatus = errors[errorMessage];
+  if (knownErrorStatus) {
+    res.status(knownErrorStatus).send(errorMessage);
+  } else {
+    res.status(500).send(`Unknown error: ${errorMessage}`);
+  }
 });
 
 app.listen(port, () => {

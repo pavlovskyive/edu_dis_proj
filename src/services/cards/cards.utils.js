@@ -1,4 +1,4 @@
-import { cardStatuses } from "./cards.config.js";
+import { cardStatuses } from "./cards.constants.js";
 
 export const validateCard = ({ card }) => {
   const isTitleValid = card.title && card.title.length > 0;

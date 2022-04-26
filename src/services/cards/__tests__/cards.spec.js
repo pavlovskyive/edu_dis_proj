@@ -7,7 +7,7 @@ import {
   updateCard,
   deleteCard,
 } from "../cards";
-import { cardStatuses } from "../cards.config";
+import { cardStatuses } from "../cards.constants.js";
 
 jest.mock("crypto", () => ({
   randomUUID: jest.fn(),
@@ -43,7 +43,7 @@ describe("Cards service", () => {
     try {
       await fn({ user, card, cardId, db });
     } catch (e) {
-      expect(e).toEqual(err ? new Error(err) : new Error("Card not valid"));
+      expect(e).toEqual(err ? new Error(err) : new Error("Invalid card data"));
     }
 
     expect(db.update).not.toHaveBeenCalled();
@@ -141,7 +141,7 @@ describe("Cards service", () => {
 
     it("should throw error is absent in user cards", () => {
       expect(() => getCard({ user, cardId: "falsyId" })).toThrow(
-        "No such card"
+        "Data doesnt exist"
       );
     });
   });
@@ -175,7 +175,7 @@ describe("Cards service", () => {
           user,
           card,
           db,
-          err: "Card not exist",
+          err: "Data doesnt exist",
         });
       });
 
@@ -243,7 +243,7 @@ describe("Cards service", () => {
           user,
           cardId: "Falsy id",
           db,
-          err: "Card not exist",
+          err: "Data doesnt exist",
         });
       });
     });
