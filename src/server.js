@@ -12,7 +12,7 @@ import { verifyToken } from "./utils/token.js";
 
 const app = express();
 app.use(express.json());
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const db = new MongoDB(process.env.MONGODB_URL);
 await db.init();
