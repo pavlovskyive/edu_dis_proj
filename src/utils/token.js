@@ -1,3 +1,5 @@
+import jwt from "jsonwebtoken";
+
 /**
  * Verifies token and assigns it to req.token
  * @param {Object} req request

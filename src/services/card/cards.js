@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 
-import { validateCard } from "./cards.utils";
+import { validateCard } from "./cards.utils.js";
 
 /**
  * @typedef {Object} Card
