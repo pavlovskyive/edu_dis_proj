@@ -14,7 +14,7 @@ const app = express();
 app.use(express.json());
 const port = 3000;
 
-const db = new MongoDB("mongodb://localhost:27017");
+const db = new MongoDB(process.env.MONGODB_URL);
 await db.init();
 
 app.post("/auth/local/register", async (req, res, next) => {
