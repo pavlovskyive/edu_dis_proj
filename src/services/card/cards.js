@@ -1,14 +1,7 @@
 // Functionality concerning cards (CRUD operations)
 import { randomUUID } from "crypto";
 
-import { validateCard } from "./cards.utils";
-
-/**
- * @typedef {Object} User
- * @property {string} username
- * @property {string} password
- * @property {string} id
- */
+import { validateCard } from "./cards.utils.js";
 
 /**
  * @typedef {Object} Card

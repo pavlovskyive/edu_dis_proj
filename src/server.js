@@ -12,9 +12,9 @@ import { verifyToken } from "./utils/token.js";
 
 const app = express();
 app.use(express.json());
-const port = 3000;
+const port = process.env.PORT || 3000;
 
-const db = new MongoDB("mongodb://localhost:27017");
+const db = new MongoDB(process.env.MONGODB_URL);
 await db.init();
 
 app.post("/auth/local/register", async (req, res, next) => {
@@ -82,10 +82,6 @@ app.delete("/cards/:id", verifyToken, async (req, res, next) => {
     })
     .then(() => res.send())
     .catch((e) => next(e));
-});
-
-app.get("/", (req, res) => {
-  res.send("Hello World!");
 });
 
 app.listen(port, () => {

@@ -1,13 +1,6 @@
 import { MongoClient } from "mongodb";
 
 /**
- * @typedef {Object} User
- * @property {string} username
- * @property {string} password
- * @property {string} id
- */
-
-/**
  * Database provider
  */
 export default class MongoDB {
